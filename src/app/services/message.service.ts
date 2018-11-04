@@ -12,4 +12,8 @@ export class MessageService {
     return this.http.get<Models.Message[]>('message');
   }
 
+  addMessage(message: Models.Message): Observable<Object> {
+    return this.http.post('message', message);
+  }
+
 }
