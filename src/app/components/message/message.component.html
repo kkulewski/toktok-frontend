@@ -1,0 +1,13 @@
+<ul>
+  <li *ngFor="let msg of messages">[{{ msg.id }}] {{ msg.text }}</li>
+</ul>
+
+<div class="container">
+  <form>
+    <div class="form-group">
+      <input type="number" required [(ngModel)]="messageId" name="messageId" placeholder="ID...">
+      <input type="text" required [(ngModel)]="messageText" name="messageText" placeholder="Text...">
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </form>
+</div>
