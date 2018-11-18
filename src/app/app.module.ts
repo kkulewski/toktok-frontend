@@ -1,13 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
 import { MessageService } from './services/message.service';
-import { AppRoutingModule } from './app-routing.module';
+
+const appRoutes: Routes = [
+  { path: '', component: MessageComponent }
+];
 
 @NgModule({
 
@@ -19,16 +23,13 @@ import { AppRoutingModule } from './app-routing.module';
 
   imports: [
     // register modules here
-    AppRoutingModule,
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     HttpClientModule,
     FormsModule
   ],
 
   providers: [
-    // routing
-    AppRoutingModule,
-
     // register injectable services here
     MessageService,
 
