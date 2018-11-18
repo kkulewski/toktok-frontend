@@ -15,6 +15,7 @@ import { MessageService } from './services/message.service';
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
     // register components here
     AppComponent,
     MessageComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavbarComponent
   ],
 
   imports: [
