@@ -1,23 +1,40 @@
+// modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+// interceptors
+import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
+
+// services
+import { MessageService } from './services/message.service';
+
+// components
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
-import { MessageService } from './services/message.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+
+const appRoutes: Routes = [
+  { path: '', component: DashboardComponent },
+  { path: 'message', component: MessageComponent }
+];
 
 @NgModule({
 
   declarations: [
     // register components here
     AppComponent,
-    MessageComponent
+    MessageComponent,
+    DashboardComponent,
+    NavbarComponent
   ],
 
   imports: [
     // register modules here
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     HttpClientModule,
     FormsModule

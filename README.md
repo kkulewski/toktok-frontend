@@ -3,7 +3,7 @@ Lightweight web chat app.
 
 ## Prerequisites
 - [Node.js 8.12 (npm 6.4.1)](https://nodejs.org/en/download/)
-- [Angular CLI 6.2.5](https://cli.angular.io/)
+- [Angular CLI 7.0.6](https://cli.angular.io/)
 
 ## Restore node modules
 
