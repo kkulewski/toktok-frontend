@@ -10,22 +10,11 @@ export class RegisterComponent implements OnInit {
 
   constructor(private userService: UserService) { }
   
-  users: Models.User[];
-
   newUsername: string;
   newUserPassword: string;
   newUserPasswordConfirmed: string;
 
   ngOnInit() {
-    this.fetchUsers();
-  }
-
-  private fetchUsers() {
-    // fetch from endpoint (API)
-    this.userService.getUsers().subscribe(
-      (users) => { this.users = users; }, // on success - assign messages
-      () => { console.log('Cannot fetch users!'); } // on fail - log error
-    );
   }
 
   private postUser() {
@@ -35,7 +24,7 @@ export class RegisterComponent implements OnInit {
         password: this.newUserPassword,
       };
       this.userService.addUser(user).subscribe(
-        () => { console.log('User created'); this.fetchUsers(); },
+        () => { console.log('User created'); },
         () => { console.log('User could not be created'); } // on fail: log error
       );
     }
