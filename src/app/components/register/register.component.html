@@ -8,7 +8,11 @@
       <input type="password" class="form-control" required [(ngModel)]="newUserPassword" name="userPassword" placeholder="Password">
       <label>Password confirmation:</label>
       <input type="password" class="form-control" required [(ngModel)]="newUserPasswordConfirmed" name="userPasswordConf" placeholder="Password confirmation">
-      <button class="btn btn-primary" (click)="postUser()">Register</button>
+      <br />
+      <button class="btn btn-primary" class="form-control" (click)="postUser()">Register</button>
+      <br />
+      <div *ngFor="let error of registerErrors" class="alert alert-danger" role="alert">{{ error }}</div>
+      <div *ngIf="registerSuccess" class="alert alert-success" role="alert">{{ registerSuccessMessage }}</div>
     </div>
   </form>
 </div>  
