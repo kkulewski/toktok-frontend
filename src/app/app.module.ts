@@ -10,16 +10,19 @@ import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
 
 // services
 import { MessageService } from './services/message.service';
+import { UserService } from './services/user.service';
 
 // components
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
-  { path: 'message', component: MessageComponent }
+  { path: 'message', component: MessageComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({
@@ -29,7 +32,8 @@ const appRoutes: Routes = [
     AppComponent,
     MessageComponent,
     DashboardComponent,
-    NavbarComponent
+    NavbarComponent,
+    RegisterComponent
   ],
 
   imports: [
@@ -43,7 +47,7 @@ const appRoutes: Routes = [
   providers: [
     // register injectable services here
     MessageService,
-
+    UserService,
     // register interceptors here
     { provide: HTTP_INTERCEPTORS, useClass: HttpRouteInterceptor, multi: true },
   ],
