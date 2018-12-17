@@ -18,11 +18,13 @@ import { MessageComponent } from './components/message/message.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'message', component: MessageComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     MessageComponent,
     DashboardComponent,
     NavbarComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
 
   imports: [

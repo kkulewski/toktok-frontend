@@ -16,4 +16,11 @@ export class UserService {
     return this.http.post('users/Register', user);
   }
 
+  login(user: Models.User): Observable<Object> {
+    return this.http.post('users/Login', user);
+  }
+
+  logout(){
+    localStorage.removeItem('JWTtoken');
+  }
 }
