@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -8,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   readonly registerSuccessMessage: string = 'Success!';
 
@@ -19,8 +20,7 @@ export class RegisterComponent implements OnInit {
   registerSuccess: boolean;
   registerErrors: string[];
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   private postUser() {
 
@@ -39,18 +39,12 @@ export class RegisterComponent implements OnInit {
       (result: Models.RegisterResult) => {
         this.registerErrors = result.errors;
         this.registerSuccess = result.success;
-        if (this.registerSuccess) { this.clearForm(); }
+        if (this.registerSuccess) { this.router.navigateByUrl('/login'); }
       },
       () => {
         this.registerErrors = [ 'Unknown error' ];
         this.registerSuccess = false;
       }
     );
-  }
-
-  private clearForm() {
-    this.newUsername = '';
-    this.newUserPassword = '';
-    this.newUserPasswordConfirmed = '';
   }
 }

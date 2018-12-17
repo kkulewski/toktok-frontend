@@ -10,21 +10,15 @@ import { UserService } from 'src/app/services/user.service';
 export class NavbarComponent implements OnInit {
 
   constructor(private router: Router, private userService: UserService) { }
-  
-  isLogged: boolean;
 
-  ngOnInit() {
-    if(localStorage.getItem('JWTtoken')){
-      //console.log("Token: "+ localStorage.getItem('JWTtoken'))
-      this.isLogged = true;
-    }
-    else{
-      this.isLogged = false;
-    }
+  ngOnInit() { }
+
+  isLogged(): boolean {
+    return this.userService.isLogged();
   }
 
-  private logout(){
+  private logout() {
     this.userService.logout();
-    window.location.reload();
+    this.router.navigateByUrl('/');
   }
 }
