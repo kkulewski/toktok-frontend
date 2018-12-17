@@ -1,0 +1,85 @@
+hide empty members
+hide circle 
+namespace Models{
+  class Entity{
+      +Id: int
+  }
+
+  class Message{
+  	+Text: string
+  }
+
+  class User{
+	+Username: string
+    +Password: string
+    +Token: string
+    +Channels: ICollection<Channel>
+  }
+
+  class Channel{
+	+Channel: string
+    +Creator: User
+    +Members: ICollection<User>
+    +Messages: ICollection<Messages>
+  }
+  
+  Entity <-- Channel
+  Entity <-- User
+  Entity <-- Message
+}
+
+namespace Controllers{
+ class ControllerBase{
+ }
+ class ChannelController{
+ 	-IChannelRepository _channelRepository;
+    +ActionResult<IEnumerable<Channel>> Get()
+    +ActionResult<Channel> Get(int id)
+    +void Post([FromBody] Channel channel)
+    +void Put(int id, [FromBody] Channel channel)
+    +void Delete(int id)
+ }
+ 
+ class MessageController{
+	-IMessageRepository _messageRepository;
+    +ActionResult<IEnumerable<Message>> Get()
+    +ActionResult<Message> Get(int id)
+    +void Post([FromBody] Message message)
+    +void Put(int id, [FromBody] Message message)
+    +void Delete(int id)
+ }
+ 
+ class UserController{
+ 	-IUserRepository _userRepository;
+    +ActionResult<IEnumerable<User>> Get()
+    +ActionResult<User> Get(int id)
+    +void Post([FromBody] User newUser)
+    +void Put(int id, [FromBody] User user)
+    +void Delete(int id)
+ }
+ 
+ ControllerBase <-- ChannelController
+ ControllerBase <-- MessageController
+ ControllerBase <-- UserController
+}
+
+namespace Services.Authentication{
+  class AuthenticationService{
+  	+AuthenticationService(IUserRepository userRepository)
+    +RegisterResult Register(User user)
+    +LoginResult Login(User user)
+  }
+  
+  class LoginResult{
+  	+Success: bool
+    +Errors: List<string>
+    +Token: string
+    +LoginResult(bool isSuccess, List<string> errors, string token)
+  }
+  
+  class RegisterResult{
+  	+Success:bool
+    +Errors: List<string>
+	+RegisterResult(bool isSuccess, List<string> errors)
+  }
+}

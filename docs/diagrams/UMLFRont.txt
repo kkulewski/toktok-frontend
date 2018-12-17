@@ -1,0 +1,98 @@
+hide empty members
+hide circle 
+
+namespace Components{
+	class LoginComponent{
+    	-router: Router
+   		-userService: UserService
+    	-loginUsername: string
+  		-loginPassword: string
+  		-loginSuccess: boolean
+  		-loginErrors: string[]
+		-isLogged: boolean
+        
+        - login()
+    }
+    class MessageComponent{
+    	-messageSerivce: MessageService
+        -messages: Message[];
+		-messageText: string;
+        -fetchMessages()
+        -sendMessage()
+    }
+    class NavbarComponent{
+    	-router: Router
+        -userService: UserService
+        -boolean isLogged()
+        -logout()
+    }
+    
+    class RegisterComponent{
+    	-userService: UserService
+        -router: Router
+        -newUsername: string
+ 		-newUserPassword: string
+		-newUserPasswordConfirmed: string
+    	-registerSuccess: boolean
+ 		-registerErrors: string[]
+        -postUser()
+    }
+    
+    class ChannelComponent{
+    	-channelService: ChannelService
+        -router: Router
+        -members: User[]
+        -messages: Message[]
+        -sendMessage[]
+    }
+}
+
+namespace Models{
+	interface LoginResult{
+    	+success: boolean
+        +errors: string[]
+		+token: string
+    }
+    interface RegisterResult{
+    	+success: boolean;
+		+errors: string[];
+    }
+    interface Message{
+   	 	+id: string
+		+text: string
+        +channelId: int
+        +userId: int
+        +dateCreated: datetime
+    }
+    interface User{
+    	+username: string;
+		+password: string;
+    }
+    interface Channel{
+    	+name: string
+        +creator: User
+     	+members: User[]
+        +messages: Message[]
+    }
+}
+
+namespace Services{
+	class UserService{
+    	-http: HttpClient
+        -Observable<Models.User[]>getUsers()
+        -Observable<Object> addUser(user: Models.User)
+        -Observable<Object> getMessages()
+        -logout()
+        -boolean isLogged()
+    }
+    class MessageService{
+    	-http: HttpClient
+        -Observable<Models.Message[]> getMessages()
+        -Observable<Object> addMessage(message: Models.Message)
+    }
+    class ChannelService{
+    	-http: HttpClient
+        -Observable<Object> addChannel(user: Models.User)
+		-Observable<Object> editChannel(user: Models.User)
+    }
+}
