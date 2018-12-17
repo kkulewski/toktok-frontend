@@ -20,7 +20,11 @@ export class UserService {
     return this.http.post('users/Login', user);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('JWTtoken');
+  }
+
+  isLogged(): boolean {
+    return localStorage.getItem('JWTtoken') ? true : false;
   }
 }
