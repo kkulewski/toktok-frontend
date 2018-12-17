@@ -16,7 +16,6 @@ namespace Components{
     class MessageComponent{
     	-messageSerivce: MessageService
         -messages: Message[];
-        -messageId: number;
 		-messageText: string;
         -fetchMessages()
         -sendMessage()
