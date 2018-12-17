@@ -9,35 +9,36 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
-  loginUsername: string ='';
-  loginPassword: string ='';
+  loginUsername = '';
+  loginPassword = '';
   loginSuccess: boolean;
   loginErrors: string[];
   isLogged: boolean;
 
-  ngOnInit() {
-    this.isLogged = localStorage.getItem('JWTtoken') ? true : false;
-  }
+  ngOnInit() { }
 
   private login() {
-    if(this.loginUsername == "" || this.loginPassword == ""){
-      this.loginErrors = [ 'Login and Password is required' ];
+
+    if (this.loginUsername === '' || this.loginPassword === '') {
+      this.loginErrors = [ 'Login and password are required' ];
       this.loginSuccess = false;
       return;
     }
+
     const user: Models.User = {
       username: this.loginUsername,
       password: this.loginPassword,
     };
+
     this.userService.login(user).subscribe(
       (result: Models.LoginResult) => {
         this.loginErrors = result.errors;
         this.loginSuccess = result.success;
-        if (this.loginSuccess) { 
+        if (this.loginSuccess) {
           localStorage.setItem('JWTtoken', result.token);
-          window.location.reload();
+          this.router.navigateByUrl('/');
         }
       },
       () => {
