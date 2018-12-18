@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-message',
@@ -9,14 +10,14 @@ import { MessageService } from 'src/app/services/message.service';
 export class MessageComponent implements OnInit {
 
   // Angular injects MessageService into private field
-  constructor(private messageSerivce: MessageService) { }
+  constructor(private messageSerivce: MessageService, private userService: UserService) { }
 
   // fetched messages (from endpoint)
   messages: Models.Message[];
 
   // new message data (from HTML input form)
-  messageId: number;
   messageText: string;
+  messageAuthor: string;
 
   ngOnInit() {
     // fetch messages list
@@ -34,12 +35,13 @@ export class MessageComponent implements OnInit {
   private sendMessage() {
     // create new message with form values
     const message = {
-      id: this.messageId.toString(),
-      text: this.messageText
+      id: '0',
+      text: this.messageText,
+      author: this.userService.getToken()
     };
     // send new message to endpoint
     this.messageSerivce.addMessage(message).subscribe(
-      () => { console.log('Message sent!'); this.fetchMessages(); }, // on success: fetch messages
+      () => { console.log('Message sent!'); this.fetchMessages(); this.messageText = '' }, // on success: fetch messages
       () => { console.log('Cannot send message!'); } // on fail: log error
     );
   }

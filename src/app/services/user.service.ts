@@ -27,4 +27,8 @@ export class UserService {
   isLogged(): boolean {
     return localStorage.getItem('JWTtoken') ? true : false;
   }
+
+  getToken(): string {
+    return localStorage.getItem('JWTtoken');
+  }
 }
