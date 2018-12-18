@@ -17,6 +17,10 @@ export class NavbarComponent implements OnInit {
     return this.userService.isLogged();
   }
 
+  getToken(): string {
+    return this.userService.getToken();
+  }
+
   private logout() {
     this.userService.logout();
     this.router.navigateByUrl('/');
