@@ -41,7 +41,7 @@ export class MessageComponent implements OnInit {
     };
     // send new message to endpoint
     this.messageSerivce.addMessage(message).subscribe(
-      () => { console.log('Message sent!'); this.fetchMessages(); this.messageText = '' }, // on success: fetch messages
+      () => { console.log('Message sent!'); this.fetchMessages(); this.messageText = ''; }, // on success: fetch messages
       () => { console.log('Cannot send message!'); } // on fail: log error
     );
   }
