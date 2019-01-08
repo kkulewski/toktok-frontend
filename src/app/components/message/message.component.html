@@ -1,13 +1,12 @@
 <ul>
-  <li *ngFor="let msg of messages">[{{ msg.id }}] {{ msg.text }}</li>
+  <li *ngFor="let msg of messages">[{{ msg.author }}] {{ msg.text }}</li>
 </ul>
 
 <div class="container">
   <form>
-    <div class="form-group">
-      <input type="number" required [(ngModel)]="messageId" name="messageId" placeholder="ID...">
-      <input type="text" required [(ngModel)]="messageText" name="messageText" placeholder="Text...">
-      <button (click)="sendMessage()">Send</button>
+    <div class="form-inline">
+      <input class="form-control mr-sm-4" type="text" required [(ngModel)]="messageText" name="messageText" placeholder="Text...">
+      <button class="btn btn-outline-success mr-sm-4" (click)="sendMessage()">Send</button>
     </div>
   </form>
 </div>

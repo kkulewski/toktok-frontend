@@ -12,22 +12,25 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/message']">Messages</a>
         </li>
-        <li *ngIf="!isLogged()" class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-            Login
+            Channels
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" [routerLink]="['/login']">Login</a>
-            <a class="dropdown-item" [routerLink]="['/register']">Register</a>
+            <a class="dropdown-item" [routerLink]="['/message']">Example1</a>
+            <a class="dropdown-item" [routerLink]="['/message']">Example2</a>
+            <a class="dropdown-item" [routerLink]="['/message']">Example3</a>
           </div>
         </li>
-        <li *ngIf="isLogged()" class="nav-item">
-          <a class="nav-link" (click)="logout()">Logout</a>
-        </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <form *ngIf="isLogged()" class="form-inline my-2 my-lg-0">
+        <a class="nav-link">Hello, {{getToken()}}!</a>
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Logout</button>
+      </form>
+      <form *ngIf="!isLogged()" class="form-inline my-4 my-lg-0">
+          <button class="btn btn-outline-info my-2 my-sm-0" [routerLink]="['/login']">Login</button>
+          <p>&nbsp;&nbsp;</p>
+          <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/register']">Register</button>
       </form>
     </div>
   </nav>
