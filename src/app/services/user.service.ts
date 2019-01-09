@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -8,16 +9,24 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  getUsers(): Observable<Models.User[]> {
-    return this.http.get<Models.User[]>('users');
+  getUsers(): Observable<UserDto[]> {
+    return this.http.get<UserDto[]>('user');
   }
 
-  addUser(user: Models.User): Observable<Object> {
-    return this.http.post('users/Register', user);
+  getUserByToken(token: string): Observable<UserDto> {
+    return this.http.get<UserDto>('user' + '/' + token);
   }
 
-  login(user: Models.User): Observable<Object> {
-    return this.http.post('users/Login', user);
+  getUserNameById(id: number): Observable<string> {
+    return this.http.get<string>('username' + '/' + id);
+  }
+
+  register(user: UserDto): Observable<Object> {
+    return this.http.post('user/register', user);
+  }
+
+  login(user: UserDto): Observable<Object> {
+    return this.http.post('user/login', user);
   }
 
   logout() {

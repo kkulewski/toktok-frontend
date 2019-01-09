@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let msg of messages">[{{ msg.author }}] {{ msg.text }}</li>
+  <li *ngFor="let msg of messages">[DT: {{ msg.sentDate }}][CHN: {{ msg.channelName }}][USR: {{ msg.userName }}] {{ msg.text }}</li>
 </ul>
 
 <div class="container">

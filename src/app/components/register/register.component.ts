@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { UserDto } from '../../dto/user.dto';
+import { RegisterResultDto } from '../../dto/register.result.dto';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +15,7 @@ export class RegisterComponent implements OnInit {
 
   readonly registerSuccessMessage: string = 'Success!';
 
-  newUsername: string;
+  newUserName: string;
   newUserPassword: string;
   newUserPasswordConfirmed: string;
 
@@ -30,13 +32,14 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const user: Models.User = {
-      username: this.newUsername,
+    const user: UserDto = {
+      id: 0,
+      userName: this.newUserName,
       password: this.newUserPassword,
     };
 
-    this.userService.addUser(user).subscribe(
-      (result: Models.RegisterResult) => {
+    this.userService.register(user).subscribe(
+      (result: RegisterResultDto) => {
         this.registerErrors = result.errors;
         this.registerSuccess = result.success;
         if (this.registerSuccess) { this.router.navigateByUrl('/login'); }
