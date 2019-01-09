@@ -1,5 +1,10 @@
+<select class="form-control" id="channel" required [(ngModel)]="selectedChannelName" name="channel">
+  <option *ngFor="let channel of channels" [value]="channel.name">{{channel.name}}</option>
+</select>
+<br/>
+
 <ul>
-  <li *ngFor="let msg of messages">[DT: {{ msg.sentDate }}][CHN: {{ msg.channelName }}][USR: {{ msg.userName }}] {{ msg.text }}</li>
+  <li *ngFor="let msg of channelMessages()">[{{ msg.sentDate }}][{{ msg.userName }}] {{ msg.text }}</li>
 </ul>
 
 <div class="container">

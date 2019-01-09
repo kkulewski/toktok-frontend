@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MessageDto } from '../dto/message.dto';
+import { ChannelDto } from '../dto/channel.dto';
 
 @Injectable()
 export class MessageService {
@@ -15,6 +16,10 @@ export class MessageService {
 
   add(message: MessageDto): Observable<Object> {
     return this.http.post('message', message);
+  }
+
+  getAllChannels(): Observable<ChannelDto[]> {
+    return this.http.get<ChannelDto[]>('channel');
   }
 
 }
