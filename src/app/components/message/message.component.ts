@@ -32,7 +32,9 @@ export class MessageComponent implements OnInit {
 
   // channel messages
   channelMessages(): MessageDto[] {
-    return this.messages.filter(x => x.channelName === this.selectedChannelName);
+    return this.messages
+      .filter(x => x.channelName === this.selectedChannelName)
+      .sort((a, b) => new Date(b.sentDate).getTime() - new Date(a.sentDate).getTime());
   }
 
   ngOnInit() {
