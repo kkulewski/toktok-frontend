@@ -1,26 +1,19 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" [routerLink]="['/']">TokTok</a>
+    <a class="navbar-brand" routerLink="/">TokTok</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']">Home</a>
+        <li *ngIf="!isLogged()" class="nav-item">
+          <a class="nav-link" routerLink="/">Home</a>
         </li>
         <li *ngIf="isLogged()" class="nav-item">
-          <a class="nav-link" [routerLink]="['/message']">Messages</a>
+          <a class="nav-link" routerLink="/message">Messages</a>
         </li>
-        <li *ngIf="isLogged()" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-            Channels
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" [routerLink]="['/message']">Example1</a>
-            <a class="dropdown-item" [routerLink]="['/message']">Example2</a>
-            <a class="dropdown-item" [routerLink]="['/message']">Example3</a>
-          </div>
+        <li *ngIf="isLogged()" class="nav-item">
+          <a class="nav-link" routerLink="/channel">Channels</a>
         </li>
       </ul>
       <form *ngIf="isLogged()" class="form-inline my-2 my-lg-0">
@@ -28,9 +21,9 @@
         <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Logout</button>
       </form>
       <form *ngIf="!isLogged()" class="form-inline my-4 my-lg-0">
-          <button class="btn btn-outline-info my-2 my-sm-0" [routerLink]="['/login']">Login</button>
+          <button class="btn btn-outline-info my-2 my-sm-0" routerLink="/login">Login</button>
           <p>&nbsp;&nbsp;</p>
-          <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/register']">Register</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" routerLink="/register">Register</button>
       </form>
     </div>
   </nav>
