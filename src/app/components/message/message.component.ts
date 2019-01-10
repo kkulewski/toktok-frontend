@@ -37,6 +37,10 @@ export class MessageComponent implements OnInit {
       .sort((a, b) => new Date(b.sentDate).getTime() - new Date(a.sentDate).getTime());
   }
 
+  isLogged(): boolean {
+    return this.userService.isLogged();
+  }
+
   ngOnInit() {
     // fetch messages and channel list
     this.fetchMessages();

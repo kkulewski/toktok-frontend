@@ -1,6 +1,7 @@
-<div class="container">
+<div *ngIf="isLogged()" class="container">
 
   <form>
+
     <div class="form-group">
       <select class="form-control" id="channel" required [(ngModel)]="selectedChannelName" name="channel">
         <option *ngFor="let channel of channels" [value]="channel.name">{{channel.name}}</option>
@@ -14,6 +15,7 @@
     <div class="form-group">
       <button class="form-control btn btn-outline-success" (click)="sendMessage()">Send</button>
     </div>
+
   </form>
 
   <hr class="col-xs-12">
@@ -29,3 +31,26 @@
   </div>
 
 </div>
+
+<div *ngIf="!isLogged()">
+    <h1 class="display-4 text-center"><a routerLink="/login">Register</a> and start chatting now!</h1>
+  
+    <br/><br/>
+  
+    <blockquote class="blockquote text-center">
+      <p class="mb-0">Man, I love this app</p>
+      <footer class="blockquote-footer">random dude on the Internet</footer>
+    </blockquote>
+    <br/>
+  
+    <blockquote class="blockquote text-left">
+      <p class="mb-0">TokTok totally changed my life! Such design, such features, such everything...</p>
+      <footer class="blockquote-footer">that pretty girl next doors</footer>
+    </blockquote>
+  
+    <blockquote class="blockquote text-right">
+        <p class="mb-0">Woof!</p>
+        <footer class="blockquote-footer">your dog</footer>
+    </blockquote>
+  
+  </div>
