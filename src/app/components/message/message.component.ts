@@ -4,25 +4,26 @@ import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
 import { UserDto } from '../../dto/user.dto';
 import { ChannelDto } from '../../dto/channel.dto';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.css']
+  styleUrls: []
 })
 export class MessageComponent implements OnInit {
 
   // Angular injects MessageService into private field
-  constructor(private messageSerivce: MessageService, private userService: UserService) { }
+  constructor(
+    private messageService: MessageService,
+    private channelService: ChannelService,
+    private userService: UserService) { }
 
   // fetched messages (from endpoint)
   messages: MessageDto[] = [];
 
   // fetched channels (from endpoint)
   channels: ChannelDto[] = [];
-
-  // fetched user (from endpoint)
-  user: UserDto;
 
   // new message data (from HTML input form)
   messageText: string;
@@ -49,7 +50,7 @@ export class MessageComponent implements OnInit {
 
   private fetchMessages() {
     // fetch from endpoint (API)
-    this.messageSerivce.getAll().subscribe(
+    this.messageService.getAll().subscribe(
       (messages) => { this.messages = messages; }, // on success - assign messages
       () => { console.log('Cannot fetch messages!'); } // on fail - log error
     );
@@ -57,7 +58,7 @@ export class MessageComponent implements OnInit {
 
   private fetchChannels() {
     // fetch from endpoint (API)
-    this.messageSerivce.getAllChannels().subscribe(
+    this.channelService.getAll().subscribe(
       (channels) => {
         this.channels = channels;
         this.selectedChannelName = this.channels[0].name;
@@ -69,14 +70,14 @@ export class MessageComponent implements OnInit {
   private sendMessage() {
     // create new message with form values
     const message = {
-      id: '0',
+      id: 0,
       text: this.messageText,
       sentDate: new Date,
       userName: this.userService.getToken(),
       channelName: this.selectedChannelName
     };
     // send new message to endpoint
-    this.messageSerivce.add(message).subscribe(
+    this.messageService.add(message).subscribe(
       () => { console.log('Message sent!'); this.fetchMessages(); this.messageText = ''; }, // on success: fetch messages
       () => { console.log('Cannot send message!'); } // on fail: log error
     );
