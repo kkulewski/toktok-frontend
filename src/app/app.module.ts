@@ -10,11 +10,13 @@ import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
 
 // services
 import { MessageService } from './services/message.service';
+import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
 
 // components
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
+import { ChannelComponent } from './components/channel/channel.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -23,6 +25,7 @@ import { LoginComponent } from './components/login/login.component';
 const appRoutes: Routes = [
   { path: '', component: MessageComponent },
   { path: 'message', component: MessageComponent },
+  { path: 'channel', component: ChannelComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent }
 ];
@@ -33,6 +36,7 @@ const appRoutes: Routes = [
     // register components here
     AppComponent,
     MessageComponent,
+    ChannelComponent,
     DashboardComponent,
     NavbarComponent,
     RegisterComponent,
@@ -50,6 +54,7 @@ const appRoutes: Routes = [
   providers: [
     // register injectable services here
     MessageService,
+    ChannelService,
     UserService,
     // register interceptors here
     { provide: HTTP_INTERCEPTORS, useClass: HttpRouteInterceptor, multi: true },

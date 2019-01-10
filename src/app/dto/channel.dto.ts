@@ -1,5 +1,5 @@
 export interface ChannelDto {
-    id: string;
+    id: number;
     name: string;
-    userId: number;
+    userName: string;
 }

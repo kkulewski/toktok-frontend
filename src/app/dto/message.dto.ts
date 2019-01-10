@@ -1,5 +1,5 @@
 export interface MessageDto {
-    id: string;
+    id: number;
     text: string;
     sentDate: Date;
     userName: string;
