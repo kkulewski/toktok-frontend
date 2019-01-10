@@ -21,10 +21,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: MessageComponent },
   { path: 'message', component: MessageComponent },
+  { path: 'user/:name', component: ProfileComponent },
   { path: 'channel', component: ChannelComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent }
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
 
   imports: [

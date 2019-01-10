@@ -24,7 +24,7 @@
     <a *ngFor="let msg of channelMessages()" class="list-group-item list-group-item-action flex-column align-items-start">
       <h6 class="mb-1">{{msg.text}}</h6>
       <div class="d-flex w-100 justify-content-between">
-        <a href="/user/{{msg.userName}}" class="mb-1">{{msg.userName}}</a>
+        <a routerLink="/user/{{msg.userName}}" class="mb-1">{{msg.userName}}</a>
         <small class="text-muted">{{msg.sentDate | date:'medium'}}</small>
       </div>
     </a>
