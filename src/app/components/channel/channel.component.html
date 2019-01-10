@@ -3,7 +3,7 @@
   <form>
 
     <div class="form-group">
-      <input class="form-control" type="text" required [(ngModel)]="channelName" name="channelName" placeholder="Channel name...">
+      <input class="form-control" type="text" required [(ngModel)]="channelName" name="channelName" placeholder="Channel name..." autocomplete="off">
     </div>
 
     <div class="form-group">
@@ -12,11 +12,22 @@
 
   </form>
 
-  <hr class="col-xs-12">
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{errorMessage}}</div>
+
+  <hr class="col-xs-12"><br/>
 
   <h5>Your channels:</h5>
-  <ul>
-    <li *ngFor="let ch of channels">{{ch.name}}</li>
+
+  <ul class="list-group">
+      <li *ngFor="let channel of sortedChannels()" class="list-group-item d-flex justify-content-between align-items-center">
+        {{channel.name}}
+        <button *ngIf="channelMessagesCount(channel) > 0" (click)="deleteChannel(channel)" type="button" class="btn btn-secondary">
+          Delete <span class="badge badge-warning">{{channelMessagesCount(channel)}}</span>
+        </button>
+        <button *ngIf="!channelMessagesCount(channel)" (click)="deleteChannel(channel)" type="button" class="btn btn-secondary">
+          Delete <span class="badge badge-light">0</span>
+        </button>
+      </li>
   </ul>
 
 </div>

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MessageDto } from '../../dto/message.dto';
 import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
-import { UserDto } from '../../dto/user.dto';
 import { ChannelDto } from '../../dto/channel.dto';
 import { ChannelService } from '../../services/channel.service';
 

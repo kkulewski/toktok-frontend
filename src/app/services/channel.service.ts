@@ -17,4 +17,8 @@ export class ChannelService {
     return this.http.post('channel', channel);
   }
 
+  delete(channel: ChannelDto): Observable<Object> {
+    return this.http.delete('channel/' + channel.id);
+  }
+
 }

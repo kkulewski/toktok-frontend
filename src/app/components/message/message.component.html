@@ -9,7 +9,7 @@
     </div>
 
     <div class="form-group">
-      <input class="form-control" type="text" required [(ngModel)]="messageText" name="messageText" placeholder="Text...">
+      <input class="form-control" type="text" required [(ngModel)]="messageText" name="messageText" placeholder="Text..." autocomplete="off">
     </div>
 
     <div class="form-group">
@@ -33,7 +33,7 @@
 </div>
 
 <div *ngIf="!isLogged()">
-    <h1 class="display-4 text-center"><a routerLink="/login">Register</a> and start chatting now!</h1>
+    <h1 class="display-4 text-center"><a routerLink="/register">Register</a> and start chatting now!</h1>
   
     <br/><br/>
   
