@@ -18,7 +18,7 @@ import { ChannelUserService } from './services/channel-user.service';
 import { AppComponent } from './app.component';
 import { MessageComponent } from './components/message/message.component';
 import { ChannelComponent } from './components/channel/channel.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TosComponent } from './components/tos/tos.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -26,6 +26,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: MessageComponent },
+  { path: 'tos', component: TosComponent },
   { path: 'message', component: MessageComponent },
   { path: 'user/:name', component: ProfileComponent },
   { path: 'channel', component: ChannelComponent },
@@ -40,7 +41,7 @@ const appRoutes: Routes = [
     AppComponent,
     MessageComponent,
     ChannelComponent,
-    DashboardComponent,
+    TosComponent,
     NavbarComponent,
     RegisterComponent,
     LoginComponent,

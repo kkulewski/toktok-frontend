@@ -9,6 +9,9 @@
         <li *ngIf="!isLogged()" class="nav-item">
           <a class="nav-link" routerLink="/">Home</a>
         </li>
+        <li *ngIf="!isLogged()" class="nav-item">
+            <a class="nav-link" routerLink="/tos">Terms of Serivce</a>
+        </li>
         <li *ngIf="isLogged()" class="nav-item">
           <a class="nav-link" routerLink="/message">Messages</a>
         </li>
