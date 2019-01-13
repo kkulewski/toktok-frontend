@@ -12,6 +12,7 @@ import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
 import { MessageService } from './services/message.service';
 import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
+import { ChannelUserService } from './services/channel-user.service';
 
 // components
 import { AppComponent } from './app.component';
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     MessageService,
     ChannelService,
     UserService,
+    ChannelUserService,
     // register interceptors here
     { provide: HTTP_INTERCEPTORS, useClass: HttpRouteInterceptor, multi: true },
   ],
