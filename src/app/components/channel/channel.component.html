@@ -43,7 +43,7 @@
               </div>
         </form>
           <div *ngFor="let inv of channelInvitations(channel)" class="list-group-item d-flex justify-content-between align-items-center">
-            {{inv.userName}}
+            <a routerLink="/user/{{inv.userName}}">{{inv.userName}}</a>
             <button (click)="kick(inv)" type="button" class="btn btn-outline-secondary">Kick</button>
           </div>
       </div>
