@@ -4,6 +4,8 @@ import { MessageDto } from '../../dto/message.dto';
 import { ChannelService } from '../../services/channel.service';
 import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
+import { ChannelUserService } from 'src/app/services/channel-user.service';
+import { UserInChannelDto } from 'src/app/dto/user-in-channel.dto';
 
 @Component({
   selector: 'app-channel',
@@ -14,6 +16,7 @@ export class ChannelComponent implements OnInit {
 
   constructor(
     private channelService: ChannelService,
+    private channelUserService: ChannelUserService,
     private messageService: MessageService,
     private userService: UserService) { }
 
@@ -21,7 +24,11 @@ export class ChannelComponent implements OnInit {
 
   messages: MessageDto[] = [];
 
+  invitations: UserInChannelDto[] = [];
+
   channelName = '';
+
+  userNameToInvite = '';
 
   errorMessage = '';
 
@@ -35,25 +42,42 @@ export class ChannelComponent implements OnInit {
 
   ngOnInit() {
     this.fetchChannels();
-    this.fetchMessages();
   }
 
   private fetchChannels() {
-    this.channelService.getAll().subscribe(
+    this.invitations = [];
+    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.channelUserService.getAllowedChannels(userName).subscribe(
       (channels) => {
-        this.channels = channels;
+        this.channels = channels.filter(x => x.userName === userName);
+        this.fetchMessages();
+        this.fetchInvitations();
       },
-      () => { console.log('Cannot fetch channels!'); }
+      () => console.log('Cannot fetch channels!')
     );
   }
 
   private fetchMessages() {
-    this.messageService.getAll().subscribe(
+    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
       (messages) => {
         this.messages = messages;
       },
       () => { console.log('Cannot fetch messages!'); }
     );
+  }
+
+  private fetchInvitations() {
+    this.channels.forEach(element => {
+      this.channelUserService.getUsersInvitedToChannel(element.id).subscribe(
+        (invitations) => {
+          this.invitations = this.invitations
+            .concat(invitations) // add element invitations
+            .filter((v, i, self) => self.map(x => x.id).indexOf(v.id) === i); // filter duplicates
+        },
+        () => console.log('Cannot fetch ' + element.name + ' invitations!')
+      );
+    });
   }
 
   private createChannel() {
@@ -80,6 +104,33 @@ export class ChannelComponent implements OnInit {
     return this.messages
       .filter(msg => msg.channelName === channel.name)
       .length;
+  }
+
+  private channelInvitations(channel: ChannelDto): UserInChannelDto[] {
+    return this.invitations.filter(inv => inv.channelName === channel.name);
+  }
+
+  private kick(invitation: UserInChannelDto) {
+    this.channelUserService.removeUserFromChannel(invitation).subscribe(
+      () => this.fetchChannels(),
+      () => console.log('Error when removing user from channel!')
+    );
+  }
+
+  private invite(channel: ChannelDto) {
+    const invitation: UserInChannelDto = {
+      id: 0,
+      userName: this.userNameToInvite,
+      channelName: channel.name
+    };
+
+    this.channelUserService.inviteUserToChannel(invitation).subscribe(
+      () => {
+        this.fetchChannels();
+        this.userNameToInvite = '';
+      },
+      () => console.log('Error when inviting user to channel!')
+    );
   }
 
 }

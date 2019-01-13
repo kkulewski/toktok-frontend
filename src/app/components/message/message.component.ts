@@ -4,6 +4,7 @@ import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
 import { ChannelDto } from '../../dto/channel.dto';
 import { ChannelService } from '../../services/channel.service';
+import { ChannelUserService } from 'src/app/services/channel-user.service';
 
 @Component({
   selector: 'app-message',
@@ -16,6 +17,7 @@ export class MessageComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private channelService: ChannelService,
+    private channelUserService: ChannelUserService,
     private userService: UserService) { }
 
   // fetched messages (from endpoint)
@@ -49,7 +51,8 @@ export class MessageComponent implements OnInit {
 
   private fetchMessages() {
     // fetch from endpoint (API)
-    this.messageService.getAll().subscribe(
+    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
       (messages) => { this.messages = messages; }, // on success - assign messages
       () => { console.log('Cannot fetch messages!'); } // on fail - log error
     );
@@ -57,10 +60,11 @@ export class MessageComponent implements OnInit {
 
   private fetchChannels() {
     // fetch from endpoint (API)
-    this.channelService.getAll().subscribe(
+    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.channelUserService.getAllowedChannels(userName).subscribe(
       (channels) => {
         this.channels = channels;
-        this.selectedChannelName = this.channels[0].name;
+        this.selectedChannelName = !this.channels[0] ? '' : this.channels[0].name;
       },
       () => { console.log('Cannot fetch channels!'); }
     );
@@ -68,7 +72,7 @@ export class MessageComponent implements OnInit {
 
   private sendMessage() {
     // create new message with form values
-    const message = {
+    const message: MessageDto = {
       id: 0,
       text: this.messageText,
       sentDate: new Date,
