@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { ChannelDto } from '../../dto/channel.dto';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelUserService } from 'src/app/services/channel-user.service';
+import { timer, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -20,10 +21,10 @@ export class MessageComponent implements OnInit {
     private channelUserService: ChannelUserService,
     private userService: UserService) { }
 
-  // fetched messages (from endpoint)
+  // fetched messages (from API)
   messages: MessageDto[] = [];
 
-  // fetched channels (from endpoint)
+  // fetched channels (from API)
   channels: ChannelDto[] = [];
 
   // new message data (from HTML input form)
@@ -31,6 +32,12 @@ export class MessageComponent implements OnInit {
 
   // currently selected channel
   selectedChannelName = '';
+
+  // timer used for continuous API calls
+  fetchTimer: Subscription;
+
+  // flag indicating that API call is in progress
+  isFetching: boolean;
 
   // channel messages
   channelMessages(): MessageDto[] {
@@ -44,29 +51,40 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // fetch messages and channel list
-    this.fetchMessages();
+    // fetch channels list
     this.fetchChannels();
+    // fetch messages every 500 ms
+    this.fetchTimer = timer(100, 500).subscribe(() => { if (!this.isFetching) { this.fetchMessages(); }});
   }
 
   private fetchMessages() {
-    // fetch from endpoint (API)
     const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.isFetching = true;
     this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
-      (messages) => { this.messages = messages; }, // on success - assign messages
-      () => { console.log('Cannot fetch messages!'); } // on fail - log error
+      (messages) => {
+        this.messages = messages;
+        this.isFetching = false;
+      },
+      () => {
+        console.log('Cannot fetch messages!');
+        this.isFetching = false;
+      }
     );
   }
 
   private fetchChannels() {
-    // fetch from endpoint (API)
     const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+    this.isFetching = true;
     this.channelUserService.getAllowedChannels(userName).subscribe(
       (channels) => {
         this.channels = channels;
         this.selectedChannelName = !this.channels[0] ? '' : this.channels[0].name;
+        this.isFetching = false;
       },
-      () => { console.log('Cannot fetch channels!'); }
+      () => {
+        console.log('Cannot fetch channels!');
+        this.isFetching = false;
+      }
     );
   }
 
