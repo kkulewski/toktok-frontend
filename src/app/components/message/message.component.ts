@@ -34,10 +34,12 @@ export class MessageComponent implements OnInit {
   selectedChannelName = '';
 
   // timer used for continuous API calls
-  fetchTimer: Subscription;
+  fetchMessagesTimer: Subscription;
+  fetchChannelsTimer: Subscription;
 
   // flag indicating that API call is in progress
-  isFetching: boolean;
+  isFetchingMessages: boolean;
+  isFetchingChannels: boolean;
 
   // channel messages
   channelMessages(): MessageDto[] {
@@ -51,44 +53,45 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // fetch channels list
-    this.fetchChannels();
+    // fetch channels every 3000 ms
+    this.fetchChannelsTimer = timer(100, 3000).subscribe(() => { if (!this.isFetchingChannels) { this.fetchChannels(); }});
     // fetch messages every 500 ms
-    this.fetchTimer = timer(100, 500).subscribe(() => { if (!this.isFetching) { this.fetchMessages(); }});
+    this.fetchMessagesTimer = timer(500, 500).subscribe(() => { if (!this.isFetchingMessages) { this.fetchMessages(); }});
   }
 
   private fetchMessages() {
     const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
-    this.isFetching = true;
+    this.isFetchingMessages = true;
     this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
       (messages) => {
         this.messages = messages;
-        this.isFetching = false;
+        this.isFetchingMessages = false;
       },
       () => {
         console.log('Cannot fetch messages!');
-        this.isFetching = false;
+        this.isFetchingMessages = false;
       }
     );
   }
 
   private fetchChannels() {
     const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
-    this.isFetching = true;
+    this.isFetchingChannels = true;
     this.channelUserService.getAllowedChannels(userName).subscribe(
       (channels) => {
         this.channels = channels;
-        this.selectedChannelName = !this.channels[0] ? '' : this.channels[0].name;
-        this.isFetching = false;
+        if (this.selectedChannelName === '' && this.channels[0]) { this.selectedChannelName = this.channels[0].name; }
+        this.isFetchingChannels = false;
       },
       () => {
         console.log('Cannot fetch channels!');
-        this.isFetching = false;
+        this.isFetchingChannels = false;
       }
     );
   }
 
   private sendMessage() {
+    if (this.selectedChannelName === '') { return; }
     // create new message with form values
     const message: MessageDto = {
       id: 0,
