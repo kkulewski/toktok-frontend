@@ -11,12 +11,12 @@ export class ChannelUserService {
   constructor(private http: HttpClient) {
   }
 
-  getAllowedChannels(userName: string): Observable<ChannelDto[]> {
-    return this.http.get<ChannelDto[]>('channels/' + userName);
+  getAllowedChannels(): Observable<ChannelDto[]> {
+    return this.http.get<ChannelDto[]>('channels');
   }
 
-  getAllowedChannelsMessages(userName: string): Observable<MessageDto[]> {
-    return this.http.get<MessageDto[]>('messages/' + userName);
+  getAllowedChannelsMessages(): Observable<MessageDto[]> {
+    return this.http.get<MessageDto[]>('messages');
   }
 
   getUsersInvitedToChannel(channelId: number): Observable<UserInChannelDto[]> {

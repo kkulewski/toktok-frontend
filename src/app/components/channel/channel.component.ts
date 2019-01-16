@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ChannelDto } from '../../dto/channel.dto';
 import { MessageDto } from '../../dto/message.dto';
 import { ChannelService } from '../../services/channel.service';
-import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
 import { ChannelUserService } from 'src/app/services/channel-user.service';
 import { UserInChannelDto } from 'src/app/dto/user-in-channel.dto';
@@ -17,7 +16,6 @@ export class ChannelComponent implements OnInit {
   constructor(
     private channelService: ChannelService,
     private channelUserService: ChannelUserService,
-    private messageService: MessageService,
     private userService: UserService) { }
 
   channels: ChannelDto[] = [];
@@ -46,10 +44,9 @@ export class ChannelComponent implements OnInit {
 
   private fetchChannels() {
     this.invitations = [];
-    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
-    this.channelUserService.getAllowedChannels(userName).subscribe(
+    this.channelUserService.getAllowedChannels().subscribe(
       (channels) => {
-        this.channels = channels.filter(x => x.userName === userName);
+        this.channels = channels.filter(x => x.userName === this.userService.getStoredUserName());
         this.fetchMessages();
         this.fetchInvitations();
       },
@@ -58,8 +55,7 @@ export class ChannelComponent implements OnInit {
   }
 
   private fetchMessages() {
-    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
-    this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
+    this.channelUserService.getAllowedChannelsMessages().subscribe(
       (messages) => {
         this.messages = messages;
       },
@@ -84,7 +80,7 @@ export class ChannelComponent implements OnInit {
     const channel = {
       id: 0,
       name: this.channelName,
-      userName: this.userService.getToken()
+      userName: this.userService.getStoredUserName() // overriden by backend
     };
 
     this.channelService.add(channel).subscribe(

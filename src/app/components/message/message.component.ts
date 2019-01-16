@@ -3,7 +3,6 @@ import { MessageDto } from '../../dto/message.dto';
 import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
 import { ChannelDto } from '../../dto/channel.dto';
-import { ChannelService } from '../../services/channel.service';
 import { ChannelUserService } from 'src/app/services/channel-user.service';
 import { timer, Subscription } from 'rxjs';
 
@@ -17,7 +16,6 @@ export class MessageComponent implements OnInit {
   // Angular injects MessageService into private field
   constructor(
     private messageService: MessageService,
-    private channelService: ChannelService,
     private channelUserService: ChannelUserService,
     private userService: UserService) { }
 
@@ -53,16 +51,20 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // fetch channels every 3000 ms
-    this.fetchChannelsTimer = timer(100, 3000).subscribe(() => { if (!this.isFetchingChannels) { this.fetchChannels(); }});
+    // fetch channels every 2000 ms
+    this.fetchChannelsTimer = timer(100, 2000).subscribe(() => { if (!this.isFetchingChannels) { this.fetchChannels(); }});
     // fetch messages every 500 ms
     this.fetchMessagesTimer = timer(500, 500).subscribe(() => { if (!this.isFetchingMessages) { this.fetchMessages(); }});
   }
 
   private fetchMessages() {
-    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+
+    if (!this.userService.isLogged()) {
+      return;
+    }
+
     this.isFetchingMessages = true;
-    this.channelUserService.getAllowedChannelsMessages(userName).subscribe(
+    this.channelUserService.getAllowedChannelsMessages().subscribe(
       (messages) => {
         this.messages = messages;
         this.isFetchingMessages = false;
@@ -75,9 +77,13 @@ export class MessageComponent implements OnInit {
   }
 
   private fetchChannels() {
-    const userName = this.userService.getToken(); // TODO: token won't be equal to userName in the future
+
+    if (!this.userService.isLogged()) {
+      return;
+    }
+
     this.isFetchingChannels = true;
-    this.channelUserService.getAllowedChannels(userName).subscribe(
+    this.channelUserService.getAllowedChannels().subscribe(
       (channels) => {
         this.channels = channels;
         if (this.selectedChannelName === '' && this.channels[0]) { this.selectedChannelName = this.channels[0].name; }
@@ -97,7 +103,7 @@ export class MessageComponent implements OnInit {
       id: 0,
       text: this.messageText,
       sentDate: new Date,
-      userName: this.userService.getToken(),
+      userName: this.userService.getStoredUserName(),
       channelName: this.selectedChannelName
     };
     // send new message to endpoint

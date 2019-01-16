@@ -20,7 +20,7 @@
         </li>
       </ul>
       <form *ngIf="isLogged()" class="form-inline my-2 my-lg-0">
-        <a class="nav-link">Hello, {{getToken()}}!</a>
+        <a class="nav-link">Hello, {{getUserName()}}!</a>
         <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Logout</button>
       </form>
       <form *ngIf="!isLogged()" class="form-inline my-4 my-lg-0">

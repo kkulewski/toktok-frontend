@@ -17,8 +17,8 @@ export class NavbarComponent implements OnInit {
     return this.userService.isLogged();
   }
 
-  getToken(): string {
-    return this.userService.getToken();
+  getUserName(): string {
+    return this.userService.getStoredUserName();
   }
 
   private logout() {
