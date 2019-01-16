@@ -14,11 +14,11 @@ export class UserService {
   }
 
   getUserByToken(token: string): Observable<UserDto> {
-    return this.http.get<UserDto>('user' + '/' + token);
+    return this.http.get<UserDto>('token/' + token);
   }
 
   getUserNameById(id: number): Observable<string> {
-    return this.http.get<string>('username' + '/' + id);
+    return this.http.get<string>('name/' + id);
   }
 
   register(user: UserDto): Observable<Object> {
@@ -30,14 +30,19 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('JWTtoken');
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_name');
   }
 
   isLogged(): boolean {
-    return localStorage.getItem('JWTtoken') ? true : false;
+    return localStorage.getItem('auth_token') ? true : false;
   }
 
-  getToken(): string {
-    return localStorage.getItem('JWTtoken');
+  getStoredToken(): string {
+    return localStorage.getItem('auth_token');
+  }
+
+  getStoredUserName(): string {
+    return localStorage.getItem('user_name');
   }
 }

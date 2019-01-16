@@ -40,7 +40,8 @@ export class LoginComponent implements OnInit {
         this.loginErrors = result.errors;
         this.loginSuccess = result.success;
         if (this.loginSuccess) {
-          localStorage.setItem('JWTtoken', result.token);
+          localStorage.setItem('auth_token', result.token);
+          localStorage.setItem('user_name', result.userName);
           this.router.navigateByUrl('/');
         }
       },
