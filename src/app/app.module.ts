@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // interceptors
 import { HttpRouteInterceptor } from './interceptors/http-route-interceptor';
+import { AuthTokenInterceptor } from './interceptors/auth-token-interceptor';
 
 // services
 import { MessageService } from './services/message.service';
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     ChannelUserService,
     // register interceptors here
     { provide: HTTP_INTERCEPTORS, useClass: HttpRouteInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}
   ],
 
   bootstrap: [
