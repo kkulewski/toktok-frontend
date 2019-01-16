@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: []
 })
 export class NavbarComponent implements OnInit {
 
@@ -17,8 +17,8 @@ export class NavbarComponent implements OnInit {
     return this.userService.isLogged();
   }
 
-  getToken(): string {
-    return this.userService.getToken();
+  getUserName(): string {
+    return this.userService.getStoredUserName();
   }
 
   private logout() {

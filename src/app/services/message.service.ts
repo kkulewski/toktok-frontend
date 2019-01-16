@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MessageDto } from '../dto/message.dto';
 
 @Injectable()
 export class MessageService {
@@ -8,12 +9,16 @@ export class MessageService {
   constructor(private http: HttpClient) {
   }
 
-  getMessages(): Observable<Models.Message[]> {
-    return this.http.get<Models.Message[]>('message');
+  getAll(): Observable<MessageDto[]> {
+    return this.http.get<MessageDto[]>('message');
   }
 
-  addMessage(message: Models.Message): Observable<Object> {
+  add(message: MessageDto): Observable<Object> {
     return this.http.post('message', message);
+  }
+
+  delete(message: MessageDto): Observable<Object> {
+    return this.http.delete('message/' + message.id);
   }
 
 }

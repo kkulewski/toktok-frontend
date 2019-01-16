@@ -1,0 +1,56 @@
+<div *ngIf="isLogged()" class="container">
+
+  <form>
+
+    <div class="form-group">
+      <input class="form-control" type="text" required [(ngModel)]="channelName" name="channelName" placeholder="Channel name..." autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <button class="form-control btn btn-outline-success" (click)="createChannel()">Create</button>
+    </div>
+
+  </form>
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{errorMessage}}</div>
+
+  <hr class="col-xs-12"><br/>
+
+  <h5>Your channels:</h5>
+
+  <div class="list-group">
+    <a *ngFor="let channel of sortedChannels()" class="list-group-item list-group-item-action flex-column align-items-start bg-light">
+
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+          <h5>{{channel.name}}</h5>
+          <button *ngIf="channelMessagesCount(channel) > 0" (click)="deleteChannel(channel)" type="button" class="btn btn-outline-danger">
+            Delete <span class="badge badge-warning">{{channelMessagesCount(channel)}}</span>
+          </button>
+          <button *ngIf="!channelMessagesCount(channel)" (click)="deleteChannel(channel)" type="button" class="btn btn-outline-warning">
+            Delete <span class="badge badge-light">0</span>
+          </button>
+      </div>
+
+      <br/>
+      <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <form>
+            <div class="form-group">
+                <input class="form-control" type="text" required [(ngModel)]="userNameToInvite" name="userNameToInvite" placeholder="User name..." autocomplete="off">
+              </div>
+          
+              <div class="form-group">
+                <button class="form-control btn btn-outline-success" (click)="invite(channel)">Invite</button>
+              </div>
+        </form>
+          <div *ngFor="let inv of channelInvitations(channel)" class="list-group-item d-flex justify-content-between align-items-center">
+            <a routerLink="/user/{{inv.userName}}">{{inv.userName}}</a>
+            <button (click)="kick(inv)" type="button" class="btn btn-outline-secondary">Kick</button>
+          </div>
+      </div>
+      <br />
+
+
+    </a>
+  </div>
+
+</div>

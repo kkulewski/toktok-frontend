@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserDto } from '../../dto/user.dto';
+import { LoginResultDto } from '../../dto/login.result.dto';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: []
 })
 export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  loginUsername = '';
+  loginUserName = '';
   loginPassword = '';
   loginSuccess: boolean;
   loginErrors: string[];
@@ -21,23 +23,25 @@ export class LoginComponent implements OnInit {
 
   private login() {
 
-    if (this.loginUsername === '' || this.loginPassword === '') {
+    if (this.loginUserName === '' || this.loginPassword === '') {
       this.loginErrors = [ 'Login and password are required' ];
       this.loginSuccess = false;
       return;
     }
 
-    const user: Models.User = {
-      username: this.loginUsername,
+    const user: UserDto = {
+      id: 0,
+      userName: this.loginUserName,
       password: this.loginPassword,
     };
 
     this.userService.login(user).subscribe(
-      (result: Models.LoginResult) => {
+      (result: LoginResultDto) => {
         this.loginErrors = result.errors;
         this.loginSuccess = result.success;
         if (this.loginSuccess) {
-          localStorage.setItem('JWTtoken', result.token);
+          localStorage.setItem('auth_token', result.token);
+          localStorage.setItem('user_name', result.userName);
           this.router.navigateByUrl('/');
         }
       },
