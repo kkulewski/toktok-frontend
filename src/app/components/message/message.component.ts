@@ -50,6 +50,10 @@ export class MessageComponent implements OnInit {
     return this.userService.isLogged();
   }
 
+  userName(): string {
+    return this.userService.getStoredUserName();
+  }
+
   ngOnInit() {
     // fetch channels every 2000 ms
     this.fetchChannelsTimer = timer(100, 2000).subscribe(() => { if (!this.isFetchingChannels) { this.fetchChannels(); }});
@@ -103,13 +107,20 @@ export class MessageComponent implements OnInit {
       id: 0,
       text: this.messageText,
       sentDate: new Date,
-      userName: this.userService.getStoredUserName(),
+      userName: this.userService.getStoredUserName(), // overriden by backend
       channelName: this.selectedChannelName
     };
     // send new message to endpoint
     this.messageService.add(message).subscribe(
       () => { console.log('Message sent!'); this.fetchMessages(); this.messageText = ''; }, // on success: fetch messages
       () => { console.log('Cannot send message!'); } // on fail: log error
+    );
+  }
+
+  private deleteMessage(message: MessageDto) {
+    this.messageService.delete(message).subscribe(
+      () => this.fetchMessages(),
+      () => console.log('Error when deleting message!')
     );
   }
 

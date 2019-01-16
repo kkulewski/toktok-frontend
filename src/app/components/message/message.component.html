@@ -24,7 +24,10 @@
 
   <div class="list-group">
     <a *ngFor="let msg of channelMessages()" class="list-group-item list-group-item-action flex-column align-items-start">
-      <h6 class="mb-1">{{msg.text}}</h6>
+      <div class="d-flex w-100 justify-content-between">
+          <h6 class="mb-1">{{msg.text}}</h6>
+          <button *ngIf="msg.userName == userName()" type="button" class="close" (click)="deleteMessage(msg)">&times;</button>
+      </div>
       <div class="d-flex w-100 justify-content-between">
         <a routerLink="/user/{{msg.userName}}" class="mb-1">{{msg.userName}}</a>
         <small class="text-muted">{{msg.sentDate | date:'medium'}}</small>

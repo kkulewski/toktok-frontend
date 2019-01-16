@@ -17,4 +17,8 @@ export class MessageService {
     return this.http.post('message', message);
   }
 
+  delete(message: MessageDto): Observable<Object> {
+    return this.http.delete('message/' + message.id);
+  }
+
 }
