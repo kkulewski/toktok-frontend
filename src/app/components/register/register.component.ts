@@ -7,7 +7,7 @@ import { RegisterResultDto } from '../../dto/register.result.dto';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: []
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
